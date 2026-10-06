@@ -26,20 +26,51 @@ public class SistemaCadastro {
                 }
             }catch (InputMismatchException e){
                 System.out.println("Você deve digitar um numero entre 0 e 5");
-                System.out.println("Erro: "+e.getMessage());
                 sc.nextLine();
                 continue;
             }
             switch(menu){
                 case 1:
+                    String nome, email;
+                    int idade;
                     System.out.println("Cadastrar pessoa");
-                    System.out.print("Digite o nome do pessoa: ");
-                    String nome = sc.nextLine();
-                    System.out.print("Digite a idade do pessoa: ");
-                    int idade = sc.nextInt();
-                    sc.nextLine();
-                    System.out.print("Digite o email da pessoa: ");
-                    String email = sc.nextLine();
+                    while(true){
+                        System.out.println("Digite o nome do pessoa: ");
+                        nome = sc.nextLine();
+
+                        if(nome.isEmpty()){
+                            System.out.println("O nome não pode estar vazio!");
+                        }else{
+                            break;
+                        }
+                    }
+                    while(true) {
+                        try {
+                            System.out.print("Digite a idade do pessoa: ");
+                        idade = sc.nextInt();
+                        sc.nextLine();
+                        if(idade <= 0 || idade > 130){
+                            System.out.println("O idade deve ser maior que 0 e menor que 130!");
+                            continue;
+                        }
+                        break;
+                        }catch (InputMismatchException e){
+                            System.out.println("Voce deve digitar um valor inteiro.");
+                            sc.nextLine();
+                        }
+                    }
+                    while(true){
+                        System.out.print("Digite o email da pessoa: ");
+                        email = sc.nextLine();
+                        if(email.isEmpty()){
+                            System.out.println("O email não pode estar vazio!");
+                        } else if (!email.contains("@")||!email.contains(".")) {
+                            System.out.println("Formato inválido, verifique o uso do @ e de .");
+                        } else{
+                            break;
+                        }
+
+                    }
                     pessoa = new Pessoa(nome, idade, email);
                     pessoas.add(pessoa);
                     break;
