@@ -72,7 +72,6 @@ public class SistemaCadastro {
                         if(emailExistente){
                             continue;
                         }
-                        System.out.println("nem cheguei aqui");
                         if(email.isEmpty()){
                             System.out.println("O email não pode estar vazio!");
 
@@ -137,6 +136,7 @@ public class SistemaCadastro {
                                 case 2:
                                     System.out.println("Para qual idade sera atualizada o cadastro?");
                                     p.setIdade(sc.nextInt());
+                                    sc.nextLine();
                                     break;
                                 case 3:
                                     System.out.println("Qual novo email para o cadastro?");
@@ -148,46 +148,50 @@ public class SistemaCadastro {
                     }
                     break;
                 case 5:
+                        System.out.println("Qual email da pessoa que você gostaria de excluir?");
+                        String excluir = sc.nextLine();
+                        Pessoa pessoaExcluida = null;
+                        for(Pessoa p : pessoas){
+                            if(p.getEmail().equals(excluir)){
+                                pessoaExcluida = p;
+                                break;
+                            }
+                        }
+                        if(pessoaExcluida == null){
+                            System.out.println("Nenhum pessoa foi encontrado.");
+                            break;
+                        }
 
-                    System.out.println("Qual email da pessoa que você gostaria de excluir?");
-                    String excluir = sc.nextLine();
-
-                    for(Pessoa p : pessoas){
-                        if(p.getEmail().equals(excluir)){
-                            System.out.println(p);
-                            System.out.println("Você tem certeza que desejas excluir esse cadastro: "+p);
+                        while(true) {
+                            System.out.println("Você tem certeza que desejas excluir esse cadastro: " + pessoaExcluida.getEmail());
                             System.out.println("1- Sim");
                             System.out.println("2- Não");
                             int menuExcluir;
-                            try{
+                            try {
                                 menuExcluir = sc.nextInt();
                                 sc.nextLine();
-                                if(menuExcluir < 1 || menuExcluir > 2){
+                                if (menuExcluir < 1 || menuExcluir > 2) {
                                     System.out.println("Você deve digitar um numero entre 1 e 2");
                                     continue;
                                 }
-                            }catch (InputMismatchException e){
+                            } catch (InputMismatchException e) {
                                 System.out.println("Você deve digitar um numero entre 1 e 2");
-                                System.out.println("Erro: "+e.getMessage());
+                                System.out.println("Erro: " + e.getMessage());
                                 sc.nextLine();
                                 continue;
                             }
-                            if(menuExcluir == 1){
-                                pessoas.remove(p);
+                            if (menuExcluir == 1) {
+                                pessoas.remove(pessoaExcluida);
                                 System.out.println("Cadastro excluido com sucesso!");
                                 break;
-                            }else if(menuExcluir == 2){
+                            } else if (menuExcluir == 2) {
                                 System.out.println("Exclusão cancelada!");
                                 break;
-
-
                             }
-
-                        }else{
-                            System.out.println("Não foi possivel localizar o cadastro do email: " + excluir);
                         }
-                    }
-                    break;
+                        break;
+
+
                  case 0:
                      System.out.println("Saindo");
                      return;
