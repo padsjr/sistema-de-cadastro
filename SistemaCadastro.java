@@ -12,7 +12,7 @@ public class SistemaCadastro {
             System.out.println("Selecione a opção para continuar:");
             System.out.println("1 - Cadastrar pessoa");
             System.out.println("2 - Listar pessoas");
-            System.out.println("3 - Consultar pessoa");
+            System.out.println("3 - Consultar pessoa por e-mail");
             System.out.println("4 - Atualizar pessoa");
             System.out.println("5 - Excluir pessoa");
             System.out.println("0 - Sair");
@@ -62,10 +62,23 @@ public class SistemaCadastro {
                     while(true){
                         System.out.print("Digite o email da pessoa: ");
                         email = sc.nextLine();
+                        boolean emailExistente = false;
+                        for(Pessoa p : pessoas){
+                            if(p.getEmail().equals(email)){
+                                System.out.println("Email ja esta em uso.");
+                                emailExistente = true;
+                            }
+                        }
+                        if(emailExistente){
+                            continue;
+                        }
+                        System.out.println("nem cheguei aqui");
                         if(email.isEmpty()){
                             System.out.println("O email não pode estar vazio!");
+
                         } else if (!email.contains("@")||!email.contains(".")) {
                             System.out.println("Formato inválido, verifique o uso do @ e de .");
+
                         } else{
                             break;
                         }
@@ -75,8 +88,12 @@ public class SistemaCadastro {
                     pessoas.add(pessoa);
                     break;
                 case 2:
+                    if(pessoas.isEmpty()){
+                        System.out.println("Nenhum pessoa foi encontrado.");
+                        break;
+                    }
                     for(Pessoa p : pessoas){
-                        System.out.println(p);
+                        System.out.println(p.toString());
                     }
                     break;
                 case 3:
@@ -131,8 +148,10 @@ public class SistemaCadastro {
                     }
                     break;
                 case 5:
+
                     System.out.println("Qual email da pessoa que você gostaria de excluir?");
                     String excluir = sc.nextLine();
+
                     for(Pessoa p : pessoas){
                         if(p.getEmail().equals(excluir)){
                             System.out.println(p);
@@ -164,6 +183,8 @@ public class SistemaCadastro {
 
                             }
 
+                        }else{
+                            System.out.println("Não foi possivel localizar o cadastro do email: " + excluir);
                         }
                     }
                     break;
