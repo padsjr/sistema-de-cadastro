@@ -7,6 +7,7 @@ public class SistemaCadastro {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         List<Pessoa> pessoas = new ArrayList<Pessoa>();
+
         Pessoa pessoa;
         while (true) {
             System.out.println("Selecione a opção para continuar:");
@@ -31,58 +32,12 @@ public class SistemaCadastro {
             }
             switch(menu){
                 case 1:
-                    String nome, email;
-                    int idade;
+
                     System.out.println("Cadastrar pessoa");
-                    while(true){
-                        System.out.println("Digite o nome do pessoa: ");
-                        nome = sc.nextLine();
+                    String nome = nomear(sc);
+                    int idade = definirIdade(sc);
+                    String email = definirEmail(sc,pessoas);
 
-                        if(nome.isEmpty()){
-                            System.out.println("O nome não pode estar vazio!");
-                        }else{
-                            break;
-                        }
-                    }
-                    while(true) {
-                        try {
-                            System.out.print("Digite a idade do pessoa: ");
-                        idade = sc.nextInt();
-                        sc.nextLine();
-                        if(idade <= 0 || idade > 130){
-                            System.out.println("O idade deve ser maior que 0 e menor que 130!");
-                            continue;
-                        }
-                        break;
-                        }catch (InputMismatchException e){
-                            System.out.println("Voce deve digitar um valor inteiro.");
-                            sc.nextLine();
-                        }
-                    }
-                    while(true){
-                        System.out.print("Digite o email da pessoa: ");
-                        email = sc.nextLine();
-                        boolean emailExistente = false;
-                        for(Pessoa p : pessoas){
-                            if(p.getEmail().equals(email)){
-                                System.out.println("Email ja esta em uso.");
-                                emailExistente = true;
-                            }
-                        }
-                        if(emailExistente){
-                            continue;
-                        }
-                        if(email.isEmpty()){
-                            System.out.println("O email não pode estar vazio!");
-
-                        } else if (!email.contains("@")||!email.contains(".")) {
-                            System.out.println("Formato inválido, verifique o uso do @ e de .");
-
-                        } else{
-                            break;
-                        }
-
-                    }
                     pessoa = new Pessoa(nome, idade, email);
                     pessoas.add(pessoa);
                     break;
@@ -130,17 +85,13 @@ public class SistemaCadastro {
                             }
                             switch(menuUpdate){
                                 case 1:
-                                    System.out.println("Qual novo nome para o cadastro?");
-                                    p.setNome(sc.nextLine());
+                                p.setNome(nomear(sc));
                                     break;
                                 case 2:
-                                    System.out.println("Para qual idade sera atualizada o cadastro?");
-                                    p.setIdade(sc.nextInt());
-                                    sc.nextLine();
+                                    p.setIdade(definirIdade(sc));
                                     break;
                                 case 3:
-                                    System.out.println("Qual novo email para o cadastro?");
-                                    p.setEmail(sc.nextLine());
+                                    p.setEmail(definirEmail(sc,pessoas));
                                     break;
                             }
 
@@ -201,4 +152,67 @@ public class SistemaCadastro {
         }
 
     }
+    public static String nomear( Scanner sc){
+        String nome;
+        while(true){
+            System.out.println("Digite o nome do pessoa: ");
+            nome = sc.nextLine();
+
+            if(nome.isEmpty()){
+                System.out.println("O nome não pode estar vazio!");
+            }else{
+                break;
+            }
+
+        }
+        return nome;
+
+    }
+    public static int definirIdade( Scanner sc) {
+        int idade;
+        while (true) {
+            try {
+                System.out.print("Digite a idade do pessoa: ");
+                idade = sc.nextInt();
+                sc.nextLine();
+                if (idade <= 0 || idade > 130) {
+                    System.out.println("O idade deve ser maior que 0 e menor que 130!");
+                    continue;
+                }
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Voce deve digitar um valor inteiro.");
+                sc.nextLine();
+            }
+        }
+        return idade;
+    }
+    public static String definirEmail( Scanner sc, List<Pessoa> pessoas) {
+        String email;
+    while(true){
+        System.out.print("Digite o email da pessoa: ");
+        email = sc.nextLine();
+        boolean emailExistente = false;
+        for(Pessoa p : pessoas){
+            if(p.getEmail().equals(email)){
+                System.out.println("Email ja esta em uso.");
+                emailExistente = true;
+            }
+        }
+        if(emailExistente){
+            continue;
+        }
+        if(email.isEmpty()){
+            System.out.println("O email não pode estar vazio!");
+
+        } else if (!email.contains("@")||!email.contains(".")) {
+            System.out.println("Formato inválido, verifique o uso do @ e de .");
+
+        } else{
+            break;
+        }
+
+    }
+    return email;
+}
 }
